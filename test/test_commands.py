@@ -9,12 +9,10 @@ from . import make_instance, req, StreamCapture
 
 
 def setup_module(module):
-    module.CWD = os.getcwd()
     module.TMPDIR, _, _ = make_instance()
 
 
 def teardown_module(module):
-    os.chdir(CWD)
     shutil.rmtree(TMPDIR)
 
 

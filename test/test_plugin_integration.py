@@ -1,5 +1,4 @@
 import sys
-import os
 import shutil
 
 from StringIO import StringIO
@@ -12,12 +11,10 @@ from . import make_instance, req, StreamCapture
 
 
 def setup_module(module):
-    module.CWD = os.getcwd()
     module.TMPDIR, module.STORE, _ = make_instance()
 
 
 def teardown_module(module):
-    os.chdir(CWD)
     shutil.rmtree(TMPDIR)
 
 
