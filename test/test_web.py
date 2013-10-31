@@ -16,6 +16,7 @@ from . import make_instance, req as _req, StreamCapture
 
 
 def setup_module(module):
+    module.CWD = os.getcwd()
     module.TMPDIR, module.STORE, module.ADMIN_COOKIE = make_instance()
 
     bag = Bag('alpha')
@@ -38,6 +39,7 @@ def setup_module(module):
 
 
 def teardown_module(module):
+    os.chdir(CWD)
     shutil.rmtree(TMPDIR)
 
 
