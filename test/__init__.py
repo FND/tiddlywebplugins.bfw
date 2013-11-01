@@ -62,6 +62,7 @@ class StreamCapture(object):
 
 def _initialize_app(tmpdir): # XXX: side-effecty and inscrutable
     instance_dir = os.path.join(tmpdir, 'instance')
+    CONFIG['root_dir'] = instance_dir
 
     spawn(instance_dir, init_config, instance)
     old_cwd = os.getcwd()
@@ -84,4 +85,6 @@ def _initialize_app(tmpdir): # XXX: side-effecty and inscrutable
     os.symlink(os.path.sep.join(templates_path), 'templates')
 
     httplib2_intercept.install()
-    wsgi_intercept.add_wsgi_intercept('example.org', 8001, load_app)
+
+    app = lambda: load_app(dirname=instance_dir)
+    wsgi_intercept.add_wsgi_intercept('example.org', 8001, app)
