@@ -15,14 +15,10 @@ def setup_module(module):
 
 
 def teardown_module(module):
-    pass #shutil.rmtree(TMPDIR)
+    shutil.rmtree(TMPDIR)
 
 
-def test_dummy():
-    assert True
-
-
-def no_test_tagdex():
+def test_tagdex():
     bag = Bag('snippets')
     STORE.put(bag)
 

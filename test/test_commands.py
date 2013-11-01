@@ -13,7 +13,7 @@ def setup_module(module):
 
 
 def teardown_module(module):
-    pass #shutil.rmtree(TMPDIR)
+    shutil.rmtree(TMPDIR)
 
 
 def test_assetcopy(): # XXX: does not belong here
