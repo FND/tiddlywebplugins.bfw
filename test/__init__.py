@@ -24,7 +24,9 @@ from tiddlywebplugins.bfw.config import config as init_config
 
 def make_instance():
     tmpdir = tempfile.mkdtemp()
+    print "A" * 80, "creating instance in %s" % tmpdir
     _initialize_app(tmpdir)
+    print "a" * 80, "instance created"
     store = get_store(CONFIG)
 
     # register admin user
@@ -62,9 +64,11 @@ class StreamCapture(object):
 
 def _initialize_app(tmpdir): # XXX: side-effecty and inscrutable
     instance_dir = os.path.join(tmpdir, 'instance')
+    print "B" * 80, "initializing instance in %s" % instance_dir
     CONFIG['root_dir'] = instance_dir
 
     spawn(instance_dir, init_config, instance)
+    print "C" * 80, "instance spawned in %s" % instance_dir
     old_cwd = os.getcwd()
     os.chdir(instance_dir)
     # force loading of instance's `tiddlywebconfig.py`
