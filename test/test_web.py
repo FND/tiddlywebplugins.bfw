@@ -228,7 +228,7 @@ def test_wiki_creation():
 
     response, content = req('GET', '/foo')
     assert response.status == 302
-    assert response['location'].endswith('/challenge?tiddlyweb_redirect=%2Ffoo%2Findex')
+    assert response['location'].endswith('/challenge?tiddlyweb_redirect=%2Ffoo')
 
     headers = { 'Cookie': ADMIN_COOKIE }
     headers.update(default_headers)
