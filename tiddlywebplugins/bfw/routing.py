@@ -17,7 +17,7 @@ RESOURCES = {
     'wikis': 'wikis',
     'pages': 'pages',
     'tiddler': 'bags/%(bag)s/tiddlers/%(title)s',
-    'tag': 'tag/%(tag)s',
+    'tag': 'tags/%(tag)s',
     'register': 'register',
     'login': 'challenge/cookie_form'
 }
