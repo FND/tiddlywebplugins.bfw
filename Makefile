@@ -9,7 +9,7 @@ server: terminate
 
 instance: remotes
 	./bfwinstance dev_instance
-	ln -s ../tiddlywebplugins/templates/ dev_instance/
+	ln -s ../tiddlywebplugins/templates/ dev_instance/templates
 
 terminate:
 	ps -o pgid -p `cat .server.pid` | tail -n1 | while read pgid; do \
