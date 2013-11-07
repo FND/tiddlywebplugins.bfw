@@ -43,7 +43,7 @@ def frontpage(environ, start_response):
                 nav=nav('front page', environ), uris=uris)
 
 
-def user_home(environ, start_response):
+def dashboard(environ, start_response):
     current_user = environ['tiddlyweb.usersign']
     username = current_user['name']
     if username == 'GUEST':
@@ -76,12 +76,12 @@ def user_home(environ, start_response):
         'create_wiki': uri('wikis', environ),
         'create_page': uri('pages', environ)
     }
-    return _render_template(environ, start_response, 'user_home.html',
+    return _render_template(environ, start_response, 'dashboard.html',
             user=username, wikis=wikis, nav=nav('dashboard', environ),
             uris=uris, contents=render_wikitext(tiddler, environ))
 
 
-def wiki_home(environ, start_response):
+def wiki_index(environ, start_response):
     wiki_name, _ = _ensure_wiki_readable(environ)
     raise HTTP302(uri('wiki index', environ, wiki=wiki_name))
 

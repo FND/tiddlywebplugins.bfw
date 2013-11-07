@@ -55,7 +55,7 @@ def test_root():
     assert response['location'] == '/~'
 
 
-def test_user_home():
+def test_dashboard():
     response, content = req('GET', '/~')
     assert response.status == 401
 
