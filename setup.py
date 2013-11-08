@@ -40,7 +40,7 @@ META = {
             'tiddlywebplugins.imaker'],
     'extras_require': {
         'build': ['tiddlywebplugins.ibuilder'],
-        'testing': ['pytest', 'wsgi-intercept', 'httplib2'],
+        'testing': ['pytest', 'wsgi-intercept<0.6', 'httplib2'],
         'coverage': ['coverage']
     }
 }
