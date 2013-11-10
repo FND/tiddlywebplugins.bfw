@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
+{% if uris %}
 <aside>
 	<form action="{{ uris['login'] }}" method="post" class="pure-form panel">
 		<fieldset>
@@ -26,6 +27,7 @@
 		</fieldset>
 	</form>
 </aside>
+{% endif %}
 
 <article>
 {{ contents }}

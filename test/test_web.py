@@ -34,7 +34,7 @@ def setup_module(module):
     STORE.put(tiddler)
 
 
-def test_root():
+def test_front_page():
     response, content = req('GET', '/')
     assert response.status == 200
     assert response['content-type'] == 'text/html; charset=UTF-8'
@@ -49,10 +49,6 @@ def test_root():
     response, content = req('GET', '/')
     assert response.status == 200
     assert '<a href="%s">BFW</a>' % uri not in content
-
-    response, content = req('GET', '/', headers={ 'Cookie': ADMIN_COOKIE })
-    assert response.status == 302
-    assert response['location'] == '/~'
 
 
 def test_dashboard():
@@ -79,10 +75,6 @@ def test_dashboard():
     STORE.delete(index)
     response, content = req('GET', '/~', headers={ 'Cookie': ADMIN_COOKIE })
     assert response.status == 200
-
-    response, content = req('GET', '/', headers={ 'Cookie': ADMIN_COOKIE })
-    assert response.status == 302
-    assert response['location'] == '/~'
 
 
 def test_wiki_page():

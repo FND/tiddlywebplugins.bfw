@@ -24,23 +24,20 @@ BLACKLIST = ['bags', 'recipes', 'wikis', 'pages', '~', 'register', 'logout'] # X
 def frontpage(environ, start_response):
     username = environ['tiddlyweb.usersign']['name']
 
-    if username != 'GUEST': # auth'd
-        raise HTTP302(uri('dashboard', environ))
-    else: # unauth'd
-        tiddler = Tiddler('index', 'meta')
-        store = environ['tiddlyweb.store']
-        try:
-            tiddler = store.get(tiddler)
-        except NoTiddlerError: # this should never occur
-            pass
+    tiddler = Tiddler('index', 'meta')
+    store = environ['tiddlyweb.store']
+    try:
+        tiddler = store.get(tiddler)
+    except NoTiddlerError: # this should never occur
+        pass
 
-        uris = {
-            'register': uri('register', environ),
-            'login': uri('login', environ)
-        }
-        return _render_template(environ, start_response, 'frontpage.html',
-                contents=render_wikitext(tiddler, environ),
-                nav=nav('front page', environ), uris=uris)
+    uris = None if username != 'GUEST' else {
+        'register': uri('register', environ),
+        'login': uri('login', environ)
+    }
+    return _render_template(environ, start_response, 'frontpage.html',
+            contents=render_wikitext(tiddler, environ),
+            nav=nav('front page', environ), uris=uris)
 
 
 def dashboard(environ, start_response):
