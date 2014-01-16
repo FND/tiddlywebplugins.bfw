@@ -1,4 +1,4 @@
-.PHONY: server instance terminate dist test qtest remotes lint coverage clean
+.PHONY: server instance terminate release dist test qtest remotes lint coverage clean
 
 server: terminate
 	cd dev_instance && export PYTHONPATH="../" && \
@@ -15,6 +15,14 @@ terminate:
 	ps -o pgid -p `cat .server.pid` | tail -n1 | while read pgid; do \
 			kill -TERM -$$pgid || true; done
 	rm .server.pid || true
+
+release: test
+	git diff --exit-code # ensure there are no uncommitted changes
+	git tag -a -m \
+			v`python -c 'import mangler; import tiddlywebplugins.bfw as bfw; print bfw.__version__'` \
+			v`python -c 'import mangler; import tiddlywebplugins.bfw as bfw; print bfw.__version__'`
+	git push origin master --tags
+	python setup.py sdist upload
 
 dist: test
 	python setup.py sdist
