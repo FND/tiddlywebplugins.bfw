@@ -18,11 +18,9 @@ def init(config):
     import tiddlywebplugins.tagdex as tagdex
     tagdex.init(config)
 
-    try:
-        selector = config['selector']
+    selector = config.get('selector')
+    if selector:
         init_server(config, selector)
-    except KeyError: # twanager mode
-        pass
 
     merge_config(config, bfwconfig)
 
