@@ -9,7 +9,7 @@ from . import make_instance, StreamCapture
 
 def setup_module(module):
     instance = make_instance()
-    module.TMPDIR = instance["tmpdir"]
+    module.TMPDIR = instance['tmpdir']
 
 
 def test_assetcopy():

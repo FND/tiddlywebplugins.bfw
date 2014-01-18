@@ -29,7 +29,7 @@ def make_instance():
     if len(INSTANCE): # multiple instances in a single process are unsupported
         return INSTANCE
 
-    tmpdir = os.path.abspath("tmp")
+    tmpdir = os.path.abspath('tmp')
     if os.path.isdir(tmpdir):
         shutil.rmtree(tmpdir)
     os.mkdir(tmpdir)
@@ -45,9 +45,9 @@ def make_instance():
     response, content = req('POST', '/register', urlencode(data),
             headers={ 'Content-Type': 'application/x-www-form-urlencoded' })
 
-    INSTANCE["tmpdir"] = tmpdir
-    INSTANCE["store"] = store
-    INSTANCE["admin_cookie"] = admin_cookie
+    INSTANCE['tmpdir'] = tmpdir
+    INSTANCE['store'] = store
+    INSTANCE['admin_cookie'] = admin_cookie
     return INSTANCE
 
 

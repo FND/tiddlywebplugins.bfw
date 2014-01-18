@@ -12,8 +12,8 @@ from . import make_instance, req
 
 def setup_module(module):
     instance = make_instance()
-    module.STORE = instance["store"]
-    module.ADMIN_COOKIE = instance["admin_cookie"]
+    module.STORE = instance['store']
+    module.ADMIN_COOKIE = instance['admin_cookie']
 
     bag = Bag('alpha')
     bag.policy = Policy(read=['admin'], write=['admin'], create=['admin'],

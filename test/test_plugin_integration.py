@@ -7,7 +7,7 @@ from . import make_instance, req, StreamCapture
 
 def setup_module(module):
     instance = make_instance()
-    module.STORE = instance["store"]
+    module.STORE = instance['store']
 
 
 def test_tagdex():
@@ -30,5 +30,5 @@ def test_tagdex():
 
         stream.seek(0)
         tags = stream.read().splitlines()
-        assert "foo" in tags
-        assert "bar" in tags
+        assert 'foo' in tags
+        assert 'bar' in tags
