@@ -200,14 +200,13 @@ def register_user(environ, start_response):
     index.text = "Welcome to %s's personal wiki." % username
     store.put(index)
 
-    root_uri = uri('front page', environ)
-
-    cookie = make_cookie('tiddlyweb_user', user.usersign, path=root_uri,
+    cookie = make_cookie('tiddlyweb_user', user.usersign,
+            path=uri('front page', environ),
             mac_key=environ['tiddlyweb.config']['secret'],
             expires=environ['tiddlyweb.config'].get('cookie_age', None))
 
-    start_response('303 See Other',
-            [('Set-Cookie', cookie), ('Location', root_uri.encode('UTF-8'))])
+    start_response('303 See Other', [('Set-Cookie', cookie),
+            ('Location', uri('dashboard', environ).encode('UTF-8'))])
     return ['']
 
 
