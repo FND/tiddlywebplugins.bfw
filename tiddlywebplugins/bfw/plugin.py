@@ -20,12 +20,16 @@ def init(config):
 
     try:
         selector = config['selector']
-        import tiddlywebplugins.static as static
-        static.init(config)
+        init_server(config, selector)
     except KeyError: # twanager mode
-        return
-    finally:
-        merge_config(config, bfwconfig)
+        pass
+
+    merge_config(config, bfwconfig)
+
+
+def init_server(config, selector):
+    import tiddlywebplugins.static as static
+    static.init(config)
 
     config['server_response_filters'].insert(0, middleware.FriendlyError) # XXX: position arbitrary!?
 
