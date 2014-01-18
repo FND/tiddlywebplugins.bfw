@@ -15,11 +15,17 @@ from .config import config as bfwconfig
 
 
 def init(config):
-    merge_config(config, bfwconfig)
+    import tiddlywebplugins.tagdex as tagdex
+    tagdex.init(config)
+
     try:
         selector = config['selector']
+        import tiddlywebplugins.static as static
+        static.init(config)
     except KeyError: # twanager mode
         return
+    finally:
+        merge_config(config, bfwconfig)
 
     config['server_response_filters'].insert(0, middleware.FriendlyError) # XXX: position arbitrary!?
 

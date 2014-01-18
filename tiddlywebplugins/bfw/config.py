@@ -8,5 +8,7 @@ config = {
     'static_file_dir': ('tiddlywebplugins.bfw', 'assets'),
     'wikitext.type_render_map': {
         'text/x-markdown': 'tiddlywebplugins.markdown'
-    }
+    },
+    'markdown.extensions': (['markdown_checklist.extension'], {}),
+    'markdown.wiki_link_base': ''
 }

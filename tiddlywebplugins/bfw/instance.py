@@ -3,11 +3,8 @@ basic structure and contents of a BFW
 """
 
 instance_config = {
-    'system_plugins': ['tiddlywebplugins.static', 'tiddlywebplugins.tagdex',
-            'tiddlywebplugins.bfw'],
-    'twanager_plugins': ['tiddlywebplugins.tagdex', 'tiddlywebplugins.bfw'],
-    'markdown.extensions': (['markdown_checklist.extension'], {}),
-    'markdown.wiki_link_base': ''
+    'system_plugins': ['tiddlywebplugins.bfw'],
+    'twanager_plugins': ['tiddlywebplugins.bfw']
 }
 
 store_structure = {
