@@ -5,7 +5,7 @@ based on TiddlyWeb (http://tiddlyweb.com)
 https://github.com/FND/tiddlywebplugins.bfw
 """
 
-__version__ = '0.0.1'
+__version__ = '0.1.0'
 __author__ = 'FND'
 __license__ = 'MIT'
 

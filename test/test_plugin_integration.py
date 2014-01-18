@@ -1,3 +1,5 @@
+import os
+
 from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.model.bag import Bag
 from tiddlyweb.manage import handle
@@ -8,6 +10,11 @@ from . import make_instance, req, StreamCapture
 def setup_module(module):
     instance = make_instance()
     module.STORE = instance['store']
+
+
+def test_gitstore():
+    gitdir = os.path.join(STORE.storage._root, '.git')
+    assert os.path.isdir(gitdir)
 
 
 def test_tagdex():
