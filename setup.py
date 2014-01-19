@@ -40,15 +40,10 @@ META = {
             'markdown-checklist>=0.2.0', 'tiddlywebplugins.imaker'],
     'extras_require': {
         'build': ['tiddlywebplugins.ibuilder'],
-        'testing': ['pytest', 'wsgi-intercept', 'httplib2'],
+        'testing': ['pytest', 'wsgi-intercept<0.6', 'httplib2'],
         'coverage': ['coverage']
     }
 }
-
-if sys.version_info.major < 3:
-    limitations = { 'wsgi-intercept': '<0.6' }
-    META['extras_require']['testing'] = [pkg + limitations.get(pkg, '')
-            for pkg in META['extras_require']['testing']]
 
 
 # entry point for tests (required because `coverage` fails to invoke `py.test`
