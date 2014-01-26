@@ -71,7 +71,7 @@ def dashboard(environ, start_response):
 
     uris = {
         'create_wiki': uri('wikis', environ),
-        'create_page': uri('pages', environ)
+        'create_page': uri('pages', environ) + '?edit=true' # XXX: hacky
     }
     return _render_template(environ, start_response, 'dashboard.html',
             user=username, wikis=wikis, nav=nav('dashboard', environ),
@@ -150,9 +150,9 @@ def create_wiki(environ, start_response):
 
 @ensure_form_submission
 def put_page(environ, start_response):
-    wiki_name, title, tags, text = [environ['tiddlyweb.query'].
+    wiki_name, title, tags, text, edit_mode = [environ['tiddlyweb.query'].
             get(param, [None])[0]
-            for param in ['wiki', 'title', 'tags', 'text']]
+            for param in ['wiki', 'title', 'tags', 'text', 'edit']]
     # TODO: validate title
     # TODO: parameter to only allow creation (for use in user home's quick creation UI)
 
@@ -168,7 +168,8 @@ def put_page(environ, start_response):
         tiddler.tags = [tag.strip() for tag in tags.split(',')]
     store.put(tiddler)
 
-    page_uri = uri('wiki page', environ, wiki=wiki_name, page=title).encode('UTF-8') # XXX: should include host!?
+    page_uri = uri('page editor' if edit_mode else 'wiki page', environ,
+            wiki=wiki_name, page=title).encode('UTF-8') # XXX: should include host!?
     start_response('303 See Other', [('Location', page_uri)])
     return ['']
 
