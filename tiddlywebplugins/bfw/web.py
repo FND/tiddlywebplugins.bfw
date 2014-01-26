@@ -150,10 +150,10 @@ def create_wiki(environ, start_response):
 
 @ensure_form_submission
 def put_page(environ, start_response):
-    wiki_name, title, tags, text = [environ['tiddlyweb.query'][param][0]
+    wiki_name, title, tags, text = [environ['tiddlyweb.query'].
+            get(param, [None])[0]
             for param in ['wiki', 'title', 'tags', 'text']]
     # TODO: validate title
-    tags = [tag.strip() for tag in tags.split(',')]
     # TODO: parameter to only allow creation (for use in user home's quick creation UI)
 
     store = environ['tiddlyweb.store']
@@ -163,8 +163,9 @@ def put_page(environ, start_response):
 
     tiddler = Tiddler(title, bag.name)
     tiddler.type = 'text/x-markdown'
-    tiddler.tags = tags
     tiddler.text = text
+    if tags:
+        tiddler.tags = [tag.strip() for tag in tags.split(',')]
     store.put(tiddler)
 
     page_uri = uri('wiki page', environ, wiki=wiki_name, page=title).encode('UTF-8') # XXX: should include host!?
