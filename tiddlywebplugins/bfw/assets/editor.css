@@ -3,6 +3,9 @@ textarea {
 	width: 100%;
 }
 
-textarea {
+textarea,
+.pure-form textarea { /* required for specificity */
 	height: 25em;
+	font-family: monospace;
+	font-size: 1.2em;
 }
