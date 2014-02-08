@@ -28,12 +28,22 @@ def setup_module(module):
 
 
 def test_global():
+    latest = list(recent_changes(STORE))
+
     expected = [
-        ('alpha', 'Hello World', '* foo\n* bar\n'),
-        ('alpha', 'Hello World', '* foo\n* bar\n* baz\n'),
-        ('bravo', 'abc', '...'),
-        ('alpha', 'Lipsum', 'lorem ipsum\n'),
-        ('alpha', 'Lipsum', 'lorem ipsum\ndolor sit amet\n'),
-        ('bravo', 'abc', 'XXX')
+        ('bravo', 'abc'),
+        ('alpha', 'Lipsum'),
+        ('alpha', 'Lipsum'),
+        ('bravo', 'abc'),
+        ('alpha', 'Hello World'),
+        ('alpha', 'Hello World')
     ]
-    assert list(recent_changes(STORE)) == expected
+    actual = [(entry['wiki'], entry['page']) for entry in latest]
+
+    # XXX: DEBUG
+    print ''
+    print expected
+    print '-' * 80
+    print actual
+
+    assert actual == expected
