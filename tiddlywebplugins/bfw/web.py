@@ -85,11 +85,12 @@ def wiki_index(environ, start_response):
 
 def wiki_page(environ, start_response):
     wiki_name, bag = _ensure_wiki_readable(environ)
+    store = bag.store
 
     page_name = get_route_value(environ, 'page_name')
     tiddler = Tiddler(page_name, bag.name)
     try:
-        tiddler = bag.store.get(tiddler)
+        tiddler = store.get(tiddler)
     except NoTiddlerError:
         raise HTTP302(uri('page editor', environ, wiki=wiki_name,
                 page=page_name))
@@ -103,12 +104,17 @@ def wiki_page(environ, start_response):
 
     # TODO: move elsewhere
     contents = render_wikitext(tiddler, environ) # XXX: tries transcluding macros prematurely
+    username = environ['tiddlyweb.usersign']['name']
+    try:
+        whitelist = store.get(Tiddler('_macros', username)).text.splitlines()
+    except (NoBagError, NoTiddlerError):
+        whitelist = []
     extra_scripts = []
     if tiddler.type == 'text/x-markdown': # XXX: special-casing
         contents, macros = extract_macros(contents)
-        # TODO: existence(?) & whitelist check for each macro
         extra_scripts = [uri('wiki page', environ, wiki=wiki, page=page)
-                for wiki, page in macros]
+                for wiki, page in macros
+                if '%s/%s' % (wiki, page) in whitelist]
 
     return _render_template(environ, start_response, 'wiki_page.html',
             title=title, page_title=page_name, uris=uris, tags=tags,
