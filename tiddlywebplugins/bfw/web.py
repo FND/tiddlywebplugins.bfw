@@ -104,7 +104,6 @@ def wiki_page(environ, start_response):
     contents = render_wikitext(tiddler, environ)
     extra_scripts = []
     if tiddler.type == 'text/x-markdown': # XXX: special-casing
-        # TODO: whitelist check
         contents, macros = extract_macros(contents)
         extra_scripts = [uri('wiki page', environ, wiki=wiki, page=page)
                 for wiki, page in macros]
@@ -274,14 +273,12 @@ def _ensure_bag_exists(bag_name, store):
 def extract_macros(html): # XXX: does not belong here
     import re
     from tiddlywebplugins.markdown.transclusion import TRANSCLUDE_RE
-    pattern = '.*%s.*' % TRANSCLUDE_RE # FIXME: hacky (cf. DOTALL flag below)
-    pattern = re.compile(pattern, re.DOTALL)
+    pattern = re.compile(TRANSCLUDE_RE)
 
-    matches = pattern.match(html)
-    if matches:
-        page, wiki = matches.groups() # TODO: support for multiple occurrences
-        if page.startswith('macro:'):
+    macros = []
+    for page, wiki in pattern.findall(html):
+        if page.startswith('macro:'): # TODO: whitelist check
             macro = page[6:] # strip prefix
-            return html, [(wiki, macro)] # TODO: remove macro references from HTML
+            macros.append((wiki, macro))
 
-    return html, []
+    return html, [] # TODO: remove macro references from HTML
