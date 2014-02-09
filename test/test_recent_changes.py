@@ -28,9 +28,10 @@ def setup_module(module):
 
 
 def test_global():
-    latest = list(recent_changes(STORE))
+    latest = list(recent_changes(STORE, max_entries=6))
 
-    expected = [
+    actual = [(entry['wiki'], entry['page']) for entry in latest]
+    assert actual == [
         ('bravo', 'abc'),
         ('alpha', 'Lipsum'),
         ('alpha', 'Lipsum'),
@@ -38,12 +39,3 @@ def test_global():
         ('alpha', 'Hello World'),
         ('alpha', 'Hello World')
     ]
-    actual = [(entry['wiki'], entry['page']) for entry in latest]
-
-    # XXX: DEBUG
-    print ''
-    print expected
-    print '-' * 80
-    print actual
-
-    assert actual == expected

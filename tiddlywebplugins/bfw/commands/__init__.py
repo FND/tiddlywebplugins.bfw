@@ -52,10 +52,10 @@ def _entry(repo, commit, current, previous): # TODO: rename, document
 def _extract_page_info(repo, previous, current):
     changes = repo.object_store.tree_changes(previous, current)
     for (oldpath, newpath), _, _ in changes:
-        try:
-            matches = page_path_pattern.match(newpath)
+        path = newpath or oldpath
+        matches = page_path_pattern.match(path)
+        if matches:
             wiki, page = [unquote(name) for name in matches.groups()]
-            return wiki, page # XXX: premature?
-        except TypeError:
-            pass
+            if page != '.gitkeep': # XXX: special-casing; breaks encapsulation
+                return wiki, page # XXX: premature?
     return None, None
