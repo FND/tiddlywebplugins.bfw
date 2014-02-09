@@ -101,17 +101,19 @@ def wiki_page(environ, start_response):
         'source': uri('tiddler', environ, bag=wiki_name, title=page_name)
     }
 
-    contents = render_wikitext(tiddler, environ)
+    # TODO: move elsewhere
+    contents = render_wikitext(tiddler, environ) # XXX: tries transcluding macros prematurely
     extra_scripts = []
     if tiddler.type == 'text/x-markdown': # XXX: special-casing
         contents, macros = extract_macros(contents)
+        # TODO: existence(?) & whitelist check for each macro
         extra_scripts = [uri('wiki page', environ, wiki=wiki, page=page)
                 for wiki, page in macros]
 
     return _render_template(environ, start_response, 'wiki_page.html',
             title=title, page_title=page_name, uris=uris, tags=tags,
             nav=nav('wiki page', environ, wiki=wiki_name, page=page_name),
-            contents=contents, scripts=extra_scripts)
+            contents=contents, extra_scripts=extra_scripts)
 
 
 def page_editor(environ, start_response):
@@ -276,9 +278,20 @@ def extract_macros(html): # XXX: does not belong here
     pattern = re.compile(TRANSCLUDE_RE)
 
     macros = []
-    for page, wiki in pattern.findall(html):
-        if page.startswith('macro:'): # TODO: whitelist check
+    html = pattern.sub(make_extractor(macros), html)
+
+    return html, macros
+
+
+def make_extractor(macros): # XXX: does not belong here
+
+    def extractor(match):
+        page, wiki = match.groups()
+        if page.startswith('macro:'):
             macro = page[6:] # strip prefix
             macros.append((wiki, macro))
+            start, end = match.span()
+            return ''
+        return match.string
 
-    return html, [] # TODO: remove macro references from HTML
+    return extractor
